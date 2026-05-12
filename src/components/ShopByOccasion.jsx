@@ -1,6 +1,5 @@
-import { useState, useEffect } from 'react'
+import useSWR from 'swr'
 import { getOccasions } from '../data/occasions'
-
 const FALLBACK = [
   { id: 1, emoji: '🎂', name: 'Birthdays',  count: '48 items', gradient: 'from-pink-100 to-rose-200',      accent: 'bg-rose-400'   },
   { id: 2, emoji: '💕', name: 'Romance',    count: '36 items', gradient: 'from-red-100 to-pink-200',       accent: 'bg-pink-400'   },
@@ -9,13 +8,8 @@ const FALLBACK = [
 ]
 
 export default function ShopByOccasion() {
-  const [occasions, setOccasions] = useState(FALLBACK)
-
-  useEffect(() => {
-    getOccasions().then(data => {
-      if (data && data.length > 0) setOccasions(data)
-    })
-  }, [])
+  const { data } = useSWR('occasions', getOccasions, { revalidateOnFocus: false })
+  const occasions = data && data.length > 0 ? data : FALLBACK
 
   return (
     <section id="shop" className="py-24 px-6 bg-cream">

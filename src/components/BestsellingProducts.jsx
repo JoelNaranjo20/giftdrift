@@ -1,7 +1,7 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
+import useSWR from 'swr'
 import { getProducts } from '../data/products'
 import { useCart } from '../context/CartContext'
-
 function ProductCard({ product }) {
   const [added, setAdded] = useState(false)
   const { addToCart } = useCart()
@@ -75,17 +75,9 @@ function ProductCard({ product }) {
 }
 
 export default function BestsellingProducts() {
-  const [products, setProducts] = useState([])
-  const [loading, setLoading] = useState(true)
+  const { data: products = [], error } = useSWR('products', getProducts, { revalidateOnFocus: false })
+  const loading = !products.length && !error
 
-  useEffect(() => {
-    async function load() {
-      const data = await getProducts()
-      setProducts(data)
-      setLoading(false)
-    }
-    load()
-  }, [])
 
   return (
     <section className="py-24 px-6 bg-gradient-to-b from-cream to-blush/20" id="shop">

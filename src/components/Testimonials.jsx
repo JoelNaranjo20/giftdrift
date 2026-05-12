@@ -1,18 +1,8 @@
-import { useState, useEffect } from 'react'
+import useSWR from 'swr'
 import { getTestimonials } from '../data/testimonials'
-
 export default function Testimonials() {
-  const [testimonials, setTestimonials] = useState([])
-  const [loading, setLoading] = useState(true)
-
-  useEffect(() => {
-    async function load() {
-      const data = await getTestimonials()
-      setTestimonials(data)
-      setLoading(false)
-    }
-    load()
-  }, [])
+  const { data: testimonials = [], error } = useSWR('testimonials', getTestimonials, { revalidateOnFocus: false })
+  const loading = !testimonials.length && !error
 
   if (loading || testimonials.length === 0) {
     return null

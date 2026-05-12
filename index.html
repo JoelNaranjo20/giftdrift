@@ -5,6 +5,23 @@
     <link rel="icon" type="image/png" href="/logo_urdu.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+    <link rel="preload" as="image" href="/logo_urdu.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- Preconnect to Supabase to speed up API & image calls -->
+    <link rel="preconnect" href="https://thzzlyplwhludozjzbqt.supabase.co" />
+
+    <!-- PWA -->
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="theme-color" content="#FCF9F2" />
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js');
+        });
+      }
+    </script>
+
     <!-- SEO -->
     <title>giftdrift.k — Luxury Gifts & Curated Boxes in Pakistan</title>
     <meta name="description" content="giftdrift.k is Pakistan's premier luxury gift shop. We offer beautifully curated, hand-wrapped gifts delivered across Pakistan for birthdays, anniversaries, and special celebrations." />
@@ -13,18 +30,20 @@
     <meta name="geo.region" content="PK" />
     <meta name="geo.placename" content="Pakistan" />
 
-    <!-- Open Graph -->
+    <!-- Open Graph (WhatsApp, Facebook, LinkedIn) -->
+    <!-- Note: Open Graph requires absolute URLs for images to work in WhatsApp! -->
     <meta property="og:title" content="giftdrift.k — Luxury Gifts & Curated Boxes in Pakistan" />
     <meta property="og:description" content="Beautifully curated, hand-wrapped gifts for every occasion delivered nationwide across Pakistan. Shop luxury gift boxes at giftdrift.k." />
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://www.instagram.com/giftdrift.k/" />
-    <meta property="og:image" content="/logo_urdu.png" />
+    <meta property="og:url" content="https://giftdrift.vercel.app/" />
+    <meta property="og:image" content="https://giftdrift.vercel.app/logo_urdu.png" />
+    <meta property="og:site_name" content="giftdrift.k" />
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="giftdrift.k — Premium Gifts Pakistan" />
     <meta name="twitter:description" content="Curated luxury gift boxes delivered everywhere in Pakistan." />
-    <meta name="twitter:image" content="/logo_urdu.png" />
+    <meta name="twitter:image" content="https://giftdrift.vercel.app/logo_urdu.png" />
   </head>
   <body>
     <div id="root"></div>

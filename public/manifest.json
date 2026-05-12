@@ -1,0 +1,21 @@
+{
+  "name": "giftdrift.k \u2014 Luxury Gifts",
+  "short_name": "giftdrift.k",
+  "description": "Pakistan's premier luxury gift shop. Beautifully curated, hand-wrapped gifts.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FCF9F2",
+  "theme_color": "#FCF9F2",
+  "icons": [
+    {
+      "src": "/logo_urdu.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/logo_urdu.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

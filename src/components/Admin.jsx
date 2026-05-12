@@ -102,9 +102,9 @@ export default function Admin() {
       let fileToUpload = file
       const isVideo = file.type.startsWith('video/')
       if (file.type.startsWith('image/')) {
-        fileToUpload = await imageCompression(file, { maxSizeMB: 0.5, maxWidthOrHeight: 1080, useWebWorker: true })
+        fileToUpload = await imageCompression(file, { maxSizeMB: 0.5, maxWidthOrHeight: 1080, useWebWorker: true, fileType: 'image/webp' })
       }
-      const fileExt = file.name.split('.').pop()
+      const fileExt = isVideo ? file.name.split('.').pop() : 'webp'
       const filePath = `${Math.random().toString(36).substring(2, 15)}.${fileExt}`
 
       const { error } = await supabase.storage.from('media').upload(filePath, fileToUpload, { upsert: false })
