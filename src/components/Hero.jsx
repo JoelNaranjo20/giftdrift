@@ -79,11 +79,11 @@ export default function Hero() {
         </div>
 
         {/* Right — Video with floating cards around its left edge */}
-        <div className="hidden lg:block relative h-[540px]">
+        <div className="relative w-full h-[380px] sm:h-[480px] lg:h-[540px] mt-10 lg:mt-0 ml-2 md:ml-0">
 
           {/* Video container — takes full right column */}
           <div
-            className="absolute inset-0 ml-10 overflow-hidden rounded-[2rem] shadow-2xl shadow-blush/40"
+            className="absolute inset-0 ml-8 md:ml-10 overflow-hidden rounded-[2rem] shadow-2xl shadow-blush/40"
             style={{ background: 'linear-gradient(160deg, #fff0f5 0%, #ffe4ee 100%)' }}
           >
             <video
@@ -100,17 +100,17 @@ export default function Hero() {
             <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-blush/10 pointer-events-none rounded-[2rem]" />
           </div>
 
-          {/* Floating cards — anchored to left edge of the video box, no overlap on content */}
+          {/* Floating cards — anchored to left edge of the video box */}
           {floatingCards.map((card) => (
             <div
               key={card.label}
-              className={`absolute ${card.anim} bg-white/85 backdrop-blur-md rounded-2xl shadow-xl border border-white/80 px-4 py-3 flex items-center gap-3 w-44 cursor-default hover:scale-105 hover:shadow-2xl transition-transform duration-300 z-40`}
+              className={`absolute ${card.anim} bg-white/85 backdrop-blur-md rounded-2xl shadow-xl border border-white/80 px-3 py-2 md:px-4 md:py-3 flex items-center gap-2 md:gap-3 w-[150px] md:w-44 cursor-default hover:scale-105 hover:shadow-2xl transition-transform duration-300 z-40`}
               style={{ top: card.style.top, left: card.style.left, rotate: card.style.rotate }}
             >
-              <div className={`w-10 h-10 rounded-xl bg-gradient-to-br ${card.color} flex items-center justify-center text-xl flex-shrink-0`}>
+              <div className={`w-8 h-8 md:w-10 md:h-10 rounded-xl bg-gradient-to-br ${card.color} flex items-center justify-center text-lg md:text-xl flex-shrink-0`}>
                 {card.emoji}
               </div>
-              <span className="text-bark text-xs font-semibold leading-snug">{card.label}</span>
+              <span className="text-bark text-[10px] md:text-xs font-semibold leading-snug">{card.label}</span>
             </div>
           ))}
 
