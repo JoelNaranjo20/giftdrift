@@ -1,3 +1,5 @@
+import { motion } from 'framer-motion'
+
 const igTiles = [
   { gradient: 'from-rose-200 via-pink-300 to-fuchsia-200', emoji: '🌹' },
   { gradient: 'from-fuchsia-200 via-pink-200 to-rose-100', emoji: '🎁' },
@@ -8,8 +10,14 @@ const igTiles = [
 
 export default function InstagramSection() {
   return (
-    <section id="instagram" className="py-24 px-6 bg-cream">
-      <div className="max-w-5xl mx-auto text-center">
+    <section id="instagram" className="py-24 px-6 bg-cream overflow-hidden">
+      <motion.div 
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-100px" }}
+        transition={{ duration: 0.8, ease: "easeOut" }}
+        className="max-w-5xl mx-auto text-center"
+      >
         {/* Header */}
         <p className="text-clay text-sm font-semibold uppercase tracking-widest mb-3">Follow Along</p>
         <h2 className="font-serif italic text-4xl md:text-5xl text-bark font-bold mb-4">
@@ -64,7 +72,7 @@ export default function InstagramSection() {
           </svg>
           Follow on Instagram
         </a>
-      </div>
+      </motion.div>
     </section>
   )
 }

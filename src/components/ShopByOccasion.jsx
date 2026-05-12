@@ -1,4 +1,5 @@
 import useSWR from 'swr'
+import { motion } from 'framer-motion'
 import { getOccasions } from '../data/occasions'
 const FALLBACK = [
   { id: 1, emoji: '🎂', name: 'Birthdays',  count: '48 items', gradient: 'from-pink-100 to-rose-200',      accent: 'bg-rose-400'   },
@@ -12,8 +13,14 @@ export default function ShopByOccasion() {
   const occasions = data && data.length > 0 ? data : FALLBACK
 
   return (
-    <section id="shop" className="py-24 px-6 bg-cream">
-      <div className="max-w-7xl mx-auto">
+    <section id="shop" className="py-24 px-6 bg-cream overflow-hidden">
+      <motion.div 
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-100px" }}
+        transition={{ duration: 0.8, ease: "easeOut" }}
+        className="max-w-7xl mx-auto"
+      >
         {/* Header */}
         <div className="text-center mb-16">
           <p className="text-clay text-sm font-semibold uppercase tracking-widest mb-3">Browse By</p>
@@ -50,7 +57,8 @@ export default function ShopByOccasion() {
             </a>
           ))}
         </div>
-      </div>
+      </motion.div>
     </section>
   )
 }
+

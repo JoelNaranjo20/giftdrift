@@ -13,6 +13,7 @@ const Testimonials = lazy(() => import('./components/Testimonials'))
 const InstagramSection = lazy(() => import('./components/InstagramSection'))
 const Footer = lazy(() => import('./components/Footer'))
 const Admin = lazy(() => import('./components/Admin'))
+const WhatsAppFloat = lazy(() => import('./components/WhatsAppFloat'))
 
 export default function App() {
   const [isAdmin, setIsAdmin] = useState(window.location.hash === '#admin')
@@ -52,6 +53,7 @@ export default function App() {
         </main>
         <Suspense fallback={null}>
           <Footer />
+          <WhatsAppFloat />
         </Suspense>
       </div>
     </CartProvider>

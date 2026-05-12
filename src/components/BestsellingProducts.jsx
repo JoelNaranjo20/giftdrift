@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { motion } from 'framer-motion'
 import useSWR from 'swr'
 import { getProducts } from '../data/products'
 import { useCart } from '../context/CartContext'
@@ -80,8 +81,14 @@ export default function BestsellingProducts() {
 
 
   return (
-    <section className="py-24 px-6 bg-gradient-to-b from-cream to-blush/20" id="shop">
-      <div className="max-w-7xl mx-auto">
+    <section className="py-24 px-6 bg-gradient-to-b from-cream to-blush/20 overflow-hidden" id="shop">
+      <motion.div 
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-100px" }}
+        transition={{ duration: 0.8, ease: "easeOut" }}
+        className="max-w-7xl mx-auto"
+      >
         {/* Header */}
         <div className="flex flex-col md:flex-row items-start md:items-end justify-between mb-16 gap-4">
           <div>
@@ -114,7 +121,7 @@ export default function BestsellingProducts() {
             No products available.
           </div>
         )}
-      </div>
+      </motion.div>
     </section>
   )
 }

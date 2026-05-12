@@ -1,3 +1,5 @@
+import { motion } from 'framer-motion'
+
 const features = [
   {
     emoji: '🎀',
@@ -24,7 +26,13 @@ export default function WhyUs() {
       <div className="absolute bottom-0 right-0 w-96 h-96 bg-blush/10 rounded-full translate-x-32 translate-y-32 blur-3xl" />
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-clay/5 rounded-full blur-3xl" />
 
-      <div className="max-w-7xl mx-auto relative z-10">
+      <motion.div 
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-100px" }}
+        transition={{ duration: 0.8, ease: "easeOut" }}
+        className="max-w-7xl mx-auto relative z-10"
+      >
         {/* Header */}
         <div className="text-center mb-16">
           <p className="text-clay text-sm font-semibold uppercase tracking-widest mb-3">Why Us</p>
@@ -52,7 +60,7 @@ export default function WhyUs() {
             </div>
           ))}
         </div>
-      </div>
+      </motion.div>
     </section>
   )
 }

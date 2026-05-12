@@ -1,4 +1,5 @@
 import useSWR from 'swr'
+import { motion } from 'framer-motion'
 import { getTestimonials } from '../data/testimonials'
 export default function Testimonials() {
   const { data: testimonials = [], error } = useSWR('testimonials', getTestimonials, { revalidateOnFocus: false })
@@ -9,8 +10,14 @@ export default function Testimonials() {
   }
 
   return (
-    <section className="py-24 px-6 bg-gradient-to-br from-blush/30 via-cream to-blush/20">
-      <div className="max-w-7xl mx-auto">
+    <section className="py-24 px-6 bg-gradient-to-br from-blush/30 via-cream to-blush/20 overflow-hidden">
+      <motion.div 
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-100px" }}
+        transition={{ duration: 0.8, ease: "easeOut" }}
+        className="max-w-7xl mx-auto"
+      >
         {/* Header */}
         <div className="text-center mb-16">
           <p className="text-clay text-sm font-semibold uppercase tracking-widest mb-3">Reviews</p>
@@ -52,7 +59,7 @@ export default function Testimonials() {
             </div>
           ))}
         </div>
-      </div>
+      </motion.div>
     </section>
   )
 }
