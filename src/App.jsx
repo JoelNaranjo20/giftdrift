@@ -1,16 +1,18 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, lazy, Suspense } from 'react'
 import { CartProvider } from './context/CartContext'
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
 import MarqueeBanner from './components/MarqueeBanner'
-import ShopByOccasion from './components/ShopByOccasion'
-import BestsellingProducts from './components/BestsellingProducts'
-import WhyUs from './components/WhyUs'
-import Testimonials from './components/Testimonials'
-import InstagramSection from './components/InstagramSection'
-import Footer from './components/Footer'
-import Admin from './components/Admin'
 import CartDrawer from './components/CartDrawer'
+
+// Lazy load everything below the fold + Admin
+const ShopByOccasion = lazy(() => import('./components/ShopByOccasion'))
+const BestsellingProducts = lazy(() => import('./components/BestsellingProducts'))
+const WhyUs = lazy(() => import('./components/WhyUs'))
+const Testimonials = lazy(() => import('./components/Testimonials'))
+const InstagramSection = lazy(() => import('./components/InstagramSection'))
+const Footer = lazy(() => import('./components/Footer'))
+const Admin = lazy(() => import('./components/Admin'))
 
 export default function App() {
   const [isAdmin, setIsAdmin] = useState(window.location.hash === '#admin')
@@ -25,7 +27,11 @@ export default function App() {
   }, [])
 
   if (isAdmin) {
-    return <Admin />
+    return (
+      <Suspense fallback={<div className="min-h-screen bg-cream flex items-center justify-center text-bark/50 font-medium tracking-widest uppercase">Cargando Panel...</div>}>
+        <Admin />
+      </Suspense>
+    )
   }
 
   return (
@@ -36,13 +42,17 @@ export default function App() {
         <main>
           <Hero />
           <MarqueeBanner />
-          <ShopByOccasion />
-          <BestsellingProducts />
-          <WhyUs />
-          <Testimonials />
-          <InstagramSection />
+          <Suspense fallback={<div className="h-32 flex items-center justify-center text-bark/50 font-medium tracking-widest uppercase">Cargando...</div>}>
+            <ShopByOccasion />
+            <BestsellingProducts />
+            <WhyUs />
+            <Testimonials />
+            <InstagramSection />
+          </Suspense>
         </main>
-        <Footer />
+        <Suspense fallback={null}>
+          <Footer />
+        </Suspense>
       </div>
     </CartProvider>
   )

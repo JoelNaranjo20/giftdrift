@@ -19,6 +19,7 @@ function ProductCard({ product }) {
       <div className="relative aspect-[4/5] w-full bg-gradient-to-br from-cream to-pink-50 flex items-center justify-center overflow-hidden p-2">
         {product.media_type === 'image' ? (
           <img 
+            loading="lazy"
             src={product.media_url} 
             alt={product.name} 
             className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-700" 

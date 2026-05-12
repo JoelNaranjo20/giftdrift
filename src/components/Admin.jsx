@@ -287,7 +287,7 @@ export default function Admin() {
                     <div className="w-full aspect-[4/5] bg-bark/5 rounded-xl flex items-center justify-center overflow-hidden border border-bark/10 relative group">
                       {p.media_url ? (
                         p.media_type === 'image' ? 
-                          <img src={p.media_url} className="w-full h-full object-contain" /> :
+                          <img loading="lazy" src={p.media_url} className="w-full h-full object-contain" /> :
                           <video src={p.media_url} className="w-full h-full object-contain" muted />
                       ) : (
                         <span className="text-xs text-bark/40">No media</span>

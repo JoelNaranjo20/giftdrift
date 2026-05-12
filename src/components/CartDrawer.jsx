@@ -71,7 +71,7 @@ export default function CartDrawer() {
               <div key={item.id} className="flex gap-4 bg-white p-3 rounded-2xl border border-blush/40 shadow-sm">
                 <div className="w-20 h-24 bg-cream rounded-xl overflow-hidden shrink-0">
                   {item.media_type === 'image' ? (
-                    <img src={item.media_url} alt={item.name} className="w-full h-full object-cover" />
+                    <img loading="lazy" src={item.media_url} alt={item.name} className="w-full h-full object-cover" />
                   ) : (
                     <video src={item.media_url} className="w-full h-full object-cover" />
                   )}

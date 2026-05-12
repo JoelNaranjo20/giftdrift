@@ -19,6 +19,7 @@ export default function Footer() {
           <div className="text-center md:text-left">
             <a href="#hero" className="inline-block hover:opacity-80 transition-opacity duration-200">
               <img
+                loading="lazy"
                 src="/logo_urdu.png"
                 alt="giftdrift.k logo"
                 className="h-24 w-auto object-contain drop-shadow-lg"
