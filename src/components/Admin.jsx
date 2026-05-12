@@ -5,6 +5,21 @@ import { getTestimonials, saveTestimonials, deleteTestimonial } from '../data/te
 import { getOccasions, saveOccasions, deleteOccasion } from '../data/occasions'
 import { supabase } from '../lib/supabase'
 
+const OCCASION_PALETTES = [
+  { label: 'Rose',      gradient: 'from-pink-100 to-rose-200',       accent: 'bg-rose-400',    preview: 'linear-gradient(135deg,#fce7f3,#fecdd3)' },
+  { label: 'Pink',      gradient: 'from-red-100 to-pink-200',        accent: 'bg-pink-400',    preview: 'linear-gradient(135deg,#fee2e2,#fbcfe8)' },
+  { label: 'Fuchsia',   gradient: 'from-purple-100 to-fuchsia-200',  accent: 'bg-purple-400',  preview: 'linear-gradient(135deg,#f3e8ff,#f5d0fe)' },
+  { label: 'Violet',    gradient: 'from-violet-100 to-purple-200',   accent: 'bg-violet-400',  preview: 'linear-gradient(135deg,#ede9fe,#e9d5ff)' },
+  { label: 'Blue',      gradient: 'from-sky-100 to-blue-200',        accent: 'bg-blue-400',    preview: 'linear-gradient(135deg,#e0f2fe,#bfdbfe)' },
+  { label: 'Teal',      gradient: 'from-teal-100 to-cyan-200',       accent: 'bg-teal-400',    preview: 'linear-gradient(135deg,#ccfbf1,#a5f3fc)' },
+  { label: 'Green',     gradient: 'from-green-100 to-emerald-200',   accent: 'bg-emerald-400', preview: 'linear-gradient(135deg,#dcfce7,#a7f3d0)' },
+  { label: 'Lime',      gradient: 'from-lime-100 to-green-200',      accent: 'bg-lime-400',    preview: 'linear-gradient(135deg,#ecfccb,#bbf7d0)' },
+  { label: 'Amber',     gradient: 'from-yellow-100 to-amber-200',    accent: 'bg-amber-400',   preview: 'linear-gradient(135deg,#fef9c3,#fde68a)' },
+  { label: 'Orange',    gradient: 'from-orange-100 to-red-200',      accent: 'bg-orange-400',  preview: 'linear-gradient(135deg,#ffedd5,#fecaca)' },
+  { label: 'Peach',     gradient: 'from-rose-50 to-orange-100',      accent: 'bg-rose-300',    preview: 'linear-gradient(135deg,#fff1f2,#ffedd5)' },
+  { label: 'Slate',     gradient: 'from-slate-100 to-gray-200',      accent: 'bg-slate-400',   preview: 'linear-gradient(135deg,#f1f5f9,#e5e7eb)' },
+]
+
 export default function Admin() {
   const [activeTab, setActiveTab] = useState('products') // 'products' | 'testimonials' | 'occasions'
   const [products, setProducts] = useState([])
@@ -398,13 +413,35 @@ export default function Admin() {
                       <label className="text-xs font-semibold text-bark/60 uppercase tracking-wider">Sort Order</label>
                       <input type="number" value={o.sort_order || 0} onChange={e => handleOccasionChange(o.id, 'sort_order', parseInt(e.target.value))} className="p-3 rounded-xl border border-bark/20 bg-white" />
                     </div>
-                    <div className="flex flex-col gap-1">
-                      <label className="text-xs font-semibold text-bark/60 uppercase tracking-wider">Gradient (Tailwind)</label>
-                      <input type="text" value={o.gradient || ''} onChange={e => handleOccasionChange(o.id, 'gradient', e.target.value)} className="p-3 rounded-xl border border-bark/20 bg-white text-sm font-mono" placeholder="from-pink-100 to-rose-200" />
-                    </div>
-                    <div className="flex flex-col gap-1">
-                      <label className="text-xs font-semibold text-bark/60 uppercase tracking-wider">Accent Bar (Tailwind)</label>
-                      <input type="text" value={o.accent || ''} onChange={e => handleOccasionChange(o.id, 'accent', e.target.value)} className="p-3 rounded-xl border border-bark/20 bg-white text-sm font-mono" placeholder="bg-rose-400" />
+                    <div className="flex flex-col gap-2 md:col-span-2 lg:col-span-3">
+                      <label className="text-xs font-semibold text-bark/60 uppercase tracking-wider">Card Color Theme</label>
+                      <div className="flex flex-wrap gap-3">
+                        {OCCASION_PALETTES.map(p => {
+                          const isSelected = o.gradient === p.gradient
+                          return (
+                            <button
+                              key={p.label}
+                              type="button"
+                              title={p.label}
+                              onClick={() => {
+                                handleOccasionChange(o.id, 'gradient', p.gradient)
+                                handleOccasionChange(o.id, 'accent', p.accent)
+                              }}
+                              className={`flex flex-col items-center gap-1.5 p-1.5 rounded-xl border-2 transition-all ${
+                                isSelected
+                                  ? 'border-bark shadow-md scale-105'
+                                  : 'border-transparent hover:border-bark/30'
+                              }`}
+                            >
+                              <div
+                                style={{ background: p.preview }}
+                                className="w-12 h-10 rounded-lg shadow-sm"
+                              />
+                              <span className="text-[10px] font-medium text-bark/60">{p.label}</span>
+                            </button>
+                          )
+                        })}
+                      </div>
                     </div>
                   </div>
                 </div>
