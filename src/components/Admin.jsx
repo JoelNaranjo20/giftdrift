@@ -2,12 +2,14 @@ import { useState, useEffect } from 'react'
 import imageCompression from 'browser-image-compression'
 import { getProducts, saveProducts, deleteProduct } from '../data/products'
 import { getTestimonials, saveTestimonials, deleteTestimonial } from '../data/testimonials'
+import { getOccasions, saveOccasions, deleteOccasion } from '../data/occasions'
 import { supabase } from '../lib/supabase'
 
 export default function Admin() {
-  const [activeTab, setActiveTab] = useState('products') // 'products' or 'testimonials'
+  const [activeTab, setActiveTab] = useState('products') // 'products' | 'testimonials' | 'occasions'
   const [products, setProducts] = useState([])
   const [testimonials, setTestimonials] = useState([])
+  const [occasions, setOccasions] = useState([])
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
@@ -17,6 +19,7 @@ export default function Admin() {
       if (isAuthenticated) {
         setProducts(await getProducts())
         setTestimonials(await getTestimonials())
+        setOccasions(await getOccasions())
       }
     }
     load()
@@ -146,6 +149,48 @@ export default function Admin() {
     }, ...testimonials])
   }
 
+  // --- OCCASIONS LOGIC ---
+  const handleOccasionChange = (id, field, value) => {
+    setOccasions(occasions.map(o => o.id === id ? { ...o, [field]: value } : o))
+  }
+
+  const handleSaveOccasions = async () => {
+    setLoading(true)
+    try {
+      const dataToSave = occasions.map(o => {
+        const { id, name, emoji, count, gradient, accent, sort_order } = o
+        return { ...(id > 0 ? { id } : {}), name, emoji, count, gradient, accent, sort_order }
+      })
+      await saveOccasions(dataToSave)
+      setOccasions(await getOccasions())
+      alert('Occasions saved successfully!')
+    } catch (e) {
+      alert('Error saving occasions: ' + e.message)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const handleDeleteOccasion = async (id) => {
+    if (window.confirm('Delete this occasion card?')) {
+      try {
+        if (id > 0) await deleteOccasion(id)
+        setOccasions(occasions.filter(o => o.id !== id))
+      } catch (e) {
+        alert('Error deleting: ' + e.message)
+      }
+    }
+  }
+
+  const handleAddOccasion = () => {
+    const newId = occasions.length > 0 ? Math.min(...occasions.map(o => o.id)) - 1 : -1
+    setOccasions([{
+      id: newId, name: 'New Occasion', emoji: '🎁', count: '0 items',
+      gradient: 'from-pink-100 to-rose-200', accent: 'bg-rose-400',
+      sort_order: occasions.length + 1
+    }, ...occasions])
+  }
+
 
   if (!isAuthenticated) {
     return (
@@ -192,6 +237,12 @@ export default function Admin() {
             className={`pb-3 px-4 font-semibold transition-colors border-b-2 ${activeTab === 'testimonials' ? 'border-bark text-bark' : 'border-transparent text-bark/40 hover:text-bark/70'}`}
           >
             Testimonials
+          </button>
+          <button 
+            onClick={() => setActiveTab('occasions')}
+            className={`pb-3 px-4 font-semibold transition-colors border-b-2 ${activeTab === 'occasions' ? 'border-bark text-bark' : 'border-transparent text-bark/40 hover:text-bark/70'}`}
+          >
+            Occasions
           </button>
         </div>
 
@@ -304,6 +355,61 @@ export default function Admin() {
                   No testimonials right now. The section is hidden on the website until you add one.
                 </div>
               )}
+            </div>
+          </div>
+        )}
+
+        {/* --- OCCASIONS TAB --- */}
+        {activeTab === 'occasions' && (
+          <div>
+            <div className="flex justify-between items-center mb-6">
+              <button onClick={handleAddOccasion} disabled={loading} className="bg-clay text-cream px-6 py-3 rounded-xl font-medium flex items-center gap-2 hover:bg-clay/90 transition shadow-sm disabled:opacity-50">
+                <span>+</span> Add Occasion
+              </button>
+              <button onClick={handleSaveOccasions} disabled={loading} className={`bg-bark text-cream px-6 py-3 rounded-xl font-medium shadow-md transition ${loading ? 'opacity-50' : 'hover:bg-bark-dark hover:shadow-lg'}`}>
+                {loading ? 'Saving...' : 'Save Occasions'}
+              </button>
+            </div>
+
+            <div className="grid gap-6">
+              {occasions.map(o => (
+                <div key={o.id} className="border border-bark/10 p-6 rounded-2xl bg-cream/10 relative">
+                  <button onClick={() => handleDeleteOccasion(o.id)} className="absolute top-4 right-4 text-red-400 hover:text-red-600 font-bold px-3 py-1 bg-red-50 hover:bg-red-100 rounded-lg transition">Delete</button>
+
+                  {/* Preview */}
+                  <div className={`bg-gradient-to-br ${o.gradient} h-24 rounded-xl flex items-center justify-center text-5xl mb-5 w-36`}>
+                    {o.emoji}
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mr-20">
+                    <div className="flex flex-col gap-1">
+                      <label className="text-xs font-semibold text-bark/60 uppercase tracking-wider">Name</label>
+                      <input type="text" value={o.name || ''} onChange={e => handleOccasionChange(o.id, 'name', e.target.value)} className="p-3 rounded-xl border border-bark/20 bg-white font-serif text-lg" />
+                    </div>
+                    <div className="flex flex-col gap-1">
+                      <label className="text-xs font-semibold text-bark/60 uppercase tracking-wider">Emoji</label>
+                      <input type="text" value={o.emoji || ''} onChange={e => handleOccasionChange(o.id, 'emoji', e.target.value)} className="p-3 rounded-xl border border-bark/20 bg-white text-2xl" placeholder="🎁" />
+                    </div>
+                    <div className="flex flex-col gap-1">
+                      <label className="text-xs font-semibold text-bark/60 uppercase tracking-wider">Item Count Label</label>
+                      <input type="text" value={o.count || ''} onChange={e => handleOccasionChange(o.id, 'count', e.target.value)} className="p-3 rounded-xl border border-bark/20 bg-white text-sm" placeholder="48 items" />
+                    </div>
+                    <div className="flex flex-col gap-1">
+                      <label className="text-xs font-semibold text-bark/60 uppercase tracking-wider">Sort Order</label>
+                      <input type="number" value={o.sort_order || 0} onChange={e => handleOccasionChange(o.id, 'sort_order', parseInt(e.target.value))} className="p-3 rounded-xl border border-bark/20 bg-white" />
+                    </div>
+                    <div className="flex flex-col gap-1">
+                      <label className="text-xs font-semibold text-bark/60 uppercase tracking-wider">Gradient (Tailwind)</label>
+                      <input type="text" value={o.gradient || ''} onChange={e => handleOccasionChange(o.id, 'gradient', e.target.value)} className="p-3 rounded-xl border border-bark/20 bg-white text-sm font-mono" placeholder="from-pink-100 to-rose-200" />
+                    </div>
+                    <div className="flex flex-col gap-1">
+                      <label className="text-xs font-semibold text-bark/60 uppercase tracking-wider">Accent Bar (Tailwind)</label>
+                      <input type="text" value={o.accent || ''} onChange={e => handleOccasionChange(o.id, 'accent', e.target.value)} className="p-3 rounded-xl border border-bark/20 bg-white text-sm font-mono" placeholder="bg-rose-400" />
+                    </div>
+                  </div>
+                </div>
+              ))}
+              {occasions.length === 0 && <div className="text-center py-12 text-bark/40">No occasions found.</div>}
             </div>
           </div>
         )}

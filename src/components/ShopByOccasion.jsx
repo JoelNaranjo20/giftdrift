@@ -1,35 +1,22 @@
-const occasions = [
-  {
-    emoji: '🎂',
-    name: 'Birthdays',
-    count: '48 items',
-    gradient: 'from-pink-100 to-rose-200',
-    accent: 'bg-rose-400',
-  },
-  {
-    emoji: '💕',
-    name: 'Romance',
-    count: '36 items',
-    gradient: 'from-red-100 to-pink-200',
-    accent: 'bg-pink-400',
-  },
-  {
-    emoji: '🛁',
-    name: 'Self-Care',
-    count: '52 items',
-    gradient: 'from-purple-100 to-fuchsia-200',
-    accent: 'bg-purple-400',
-  },
-  {
-    emoji: '🍂',
-    name: 'Seasonal',
-    count: '29 items',
-    gradient: 'from-pink-100 to-rose-200',
-    accent: 'bg-rose-400',
-  },
+import { useState, useEffect } from 'react'
+import { getOccasions } from '../data/occasions'
+
+const FALLBACK = [
+  { id: 1, emoji: '🎂', name: 'Birthdays',  count: '48 items', gradient: 'from-pink-100 to-rose-200',      accent: 'bg-rose-400'   },
+  { id: 2, emoji: '💕', name: 'Romance',    count: '36 items', gradient: 'from-red-100 to-pink-200',       accent: 'bg-pink-400'   },
+  { id: 3, emoji: '🛁', name: 'Self-Care',  count: '52 items', gradient: 'from-purple-100 to-fuchsia-200', accent: 'bg-purple-400' },
+  { id: 4, emoji: '🍂', name: 'Seasonal',   count: '29 items', gradient: 'from-pink-100 to-rose-200',      accent: 'bg-rose-400'   },
 ]
 
 export default function ShopByOccasion() {
+  const [occasions, setOccasions] = useState(FALLBACK)
+
+  useEffect(() => {
+    getOccasions().then(data => {
+      if (data && data.length > 0) setOccasions(data)
+    })
+  }, [])
+
   return (
     <section id="shop" className="py-24 px-6 bg-cream">
       <div className="max-w-7xl mx-auto">
@@ -46,7 +33,7 @@ export default function ShopByOccasion() {
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
           {occasions.map((occ) => (
             <a
-              key={occ.name}
+              key={occ.id}
               href="#"
               className="group relative bg-white rounded-2xl overflow-hidden border border-blush/40 hover:border-clay/50 transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-clay/20"
             >
