@@ -3,7 +3,7 @@ import { motion } from 'framer-motion'
 import useSWR from 'swr'
 import { getProducts } from '../data/products'
 import { useCart } from '../context/CartContext'
-function ProductCard({ product }) {
+function ProductCard({ product, priority }) {
   const [added, setAdded] = useState(false)
   const { addToCart } = useCart()
 
@@ -20,7 +20,7 @@ function ProductCard({ product }) {
       <div className="relative aspect-[4/5] w-full bg-gradient-to-br from-cream to-pink-50 flex items-center justify-center overflow-hidden p-2">
         {product.media_type === 'image' ? (
           <img 
-            loading="lazy"
+            loading={priority ? "eager" : "lazy"}
             src={product.media_url} 
             alt={product.name} 
             className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-700" 
@@ -31,6 +31,7 @@ function ProductCard({ product }) {
             loop 
             muted 
             playsInline 
+            preload={priority ? "auto" : "metadata"}
             className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-700"
           >
             <source src={product.media_url} type="video/mp4" />
@@ -112,8 +113,8 @@ export default function BestsellingProducts() {
           </div>
         ) : products.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-            {products.map((p) => (
-              <ProductCard key={p.id} product={p} />
+            {products.map((p, index) => (
+              <ProductCard key={p.id} product={p} priority={index < 4} />
             ))}
           </div>
         ) : (

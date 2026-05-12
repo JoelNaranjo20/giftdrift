@@ -5,9 +5,8 @@ import Hero from './components/Hero'
 import MarqueeBanner from './components/MarqueeBanner'
 import CartDrawer from './components/CartDrawer'
 
-// Lazy load everything below the fold + Admin
-const ShopByOccasion = lazy(() => import('./components/ShopByOccasion'))
-const BestsellingProducts = lazy(() => import('./components/BestsellingProducts'))
+import ShopByOccasion from './components/ShopByOccasion'
+import BestsellingProducts from './components/BestsellingProducts'
 const WhyUs = lazy(() => import('./components/WhyUs'))
 const Testimonials = lazy(() => import('./components/Testimonials'))
 const InstagramSection = lazy(() => import('./components/InstagramSection'))
@@ -43,9 +42,9 @@ export default function App() {
         <main>
           <Hero />
           <MarqueeBanner />
+          <ShopByOccasion />
+          <BestsellingProducts />
           <Suspense fallback={<div className="h-32 flex items-center justify-center text-bark/50 font-medium tracking-widest uppercase">Cargando...</div>}>
-            <ShopByOccasion />
-            <BestsellingProducts />
             <WhyUs />
             <Testimonials />
             <InstagramSection />
