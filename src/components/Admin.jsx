@@ -166,7 +166,12 @@ export default function Admin() {
 
   // --- OCCASIONS LOGIC ---
   const handleOccasionChange = (id, field, value) => {
-    setOccasions(occasions.map(o => o.id === id ? { ...o, [field]: value } : o))
+    setOccasions(prev => prev.map(o => o.id === id ? { ...o, [field]: value } : o))
+  }
+
+  // Sets gradient + accent in ONE update to avoid React stale-closure bug
+  const handleOccasionPalette = (id, gradient, accent) => {
+    setOccasions(prev => prev.map(o => o.id === id ? { ...o, gradient, accent } : o))
   }
 
   const handleSaveOccasions = async () => {
@@ -423,10 +428,7 @@ export default function Admin() {
                               key={p.label}
                               type="button"
                               title={p.label}
-                              onClick={() => {
-                                handleOccasionChange(o.id, 'gradient', p.gradient)
-                                handleOccasionChange(o.id, 'accent', p.accent)
-                              }}
+                              onClick={() => handleOccasionPalette(o.id, p.gradient, p.accent)}
                               className={`flex flex-col items-center gap-1.5 p-1.5 rounded-xl border-2 transition-all ${
                                 isSelected
                                   ? 'border-bark shadow-md scale-105'
