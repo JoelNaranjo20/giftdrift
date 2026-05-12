@@ -4,7 +4,7 @@ export default function CartDrawer() {
   const { isCartOpen, setIsCartOpen, cartItems, removeFromCart, updateQuantity, cartTotal } = useCart()
 
   // Replace with actual business WhatsApp number (with country code, no +)
-  const WHATSAPP_NUMBER = '923000000000' 
+  const WHATSAPP_NUMBER = '923194309610'
 
   const handleCheckout = () => {
     if (cartItems.length === 0) return

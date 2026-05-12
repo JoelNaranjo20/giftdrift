@@ -55,6 +55,17 @@ export default function Navbar() {
               <span className="absolute -bottom-0.5 left-0 w-0 h-0.5 bg-clay transition-all duration-300 group-hover:w-full" />
             </a>
           ))}
+          {/* Email quick-action */}
+          <a
+            href="mailto:giftdrift.k@gmail.com"
+            className="inline-flex items-center gap-1.5 border border-bark/30 text-bark/70 hover:border-clay hover:text-clay px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 hover:shadow-sm"
+          >
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25H4.5a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0l-9.75 7.5-9.75-7.5" />
+            </svg>
+            Contact
+          </a>
+
           <button
             onClick={() => setIsCartOpen(true)}
             className="relative flex items-center gap-2 bg-bark text-cream px-5 py-2.5 rounded-full text-sm font-semibold hover:bg-bark-dark transition-all duration-200 hover:shadow-lg hover:-translate-y-0.5"
@@ -122,6 +133,16 @@ export default function Navbar() {
               {link}
             </a>
           ))}
+          <a
+            href="mailto:giftdrift.k@gmail.com"
+            className="inline-flex items-center justify-center gap-2 border border-bark/30 text-bark px-6 py-2.5 rounded-full text-sm font-medium hover:border-clay hover:text-clay transition-colors"
+            onClick={() => setMenuOpen(false)}
+          >
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25H4.5a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0l-9.75 7.5-9.75-7.5" />
+            </svg>
+            giftdrift.k@gmail.com
+          </a>
           <a
             href="#shop"
             className="bg-bark text-cream px-6 py-2.5 rounded-full text-sm font-semibold text-center hover:bg-bark-dark transition-colors"
